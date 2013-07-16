@@ -1,7 +1,23 @@
 #!/usr/bin/env python
-from settings import *
 import urlparse
 import os
+
+#########
+# PATHS #
+#########
+
+# Full filesystem path to the project.
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# Name of the directory for the project.
+PROJECT_DIRNAME = PROJECT_ROOT.split(os.sep)[-1]
+
+REPO_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
+
+sys.path.insert(0, REPO_ROOT)
+sys.path.insert(0, PROJECT_ROOT)
+
+from settings import *
 
 #############
 # DATABASES #
@@ -42,21 +58,6 @@ else:
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
         }
 
-
-#########
-# PATHS #
-#########
-
-# Full filesystem path to the project.
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-# Name of the directory for the project.
-PROJECT_DIRNAME = PROJECT_ROOT.split(os.sep)[-1]
-
-REPO_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
-
-sys.path.insert(0, REPO_ROOT)
-sys.path.insert(0, PROJECT_ROOT)
 
 # Every cache key will get prefixed with this value - here we set it to
 # the name of the directory the project is in to try and use something

@@ -19,5 +19,5 @@ python "$OPENSHIFT_REPO_DIR"mediathread/manage.py syncdb --noinput --settings=$D
 echo "Executing 'python ${OPENSHIFT_REPO_DIR}mediathread/manage.py make_admin'"
 python "$OPENSHIFT_REPO_DIR"mediathread/manage.py make_admin --settings=$DJANGO_SETTINGS
 
-echo "Executing 'python ${OPENSHIFT_REPO_DIR}mediathread/manage.py collectstatic --noinput -v0'"
-python "$OPENSHIFT_REPO_DIR"mediathread/manage.py collectstatic --noinput -v0 --settings=$DJANGO_SETTINGS
+#echo "Executing 'python ${OPENSHIFT_REPO_DIR}mediathread/manage.py collectstatic --noinput -v0'"
+#python "$OPENSHIFT_REPO_DIR"mediathread/manage.py collectstatic --noinput -v0 --settings=$DJANGO_SETTINGS
