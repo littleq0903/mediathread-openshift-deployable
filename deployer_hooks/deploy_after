@@ -1,0 +1,13 @@
+#!/bin/bash
+PROJECT_NAME=mediathread
+REQUIREMENTS=mediathread/requirements/apps.txt
+STATIC_URL=/static/
+MANAGEPY=mediathread/manage.py
+PYVERSION=Python2.7
+PROVIDER=openshift
+APPLICATION_NAME=mediathreadlab
+DJANGO_SETTINGS=mediathread.settings
+MEDIA_URL=/media/
+ADMIN_PASSWORD=testtest
+
+echo "$0 has been executed!"

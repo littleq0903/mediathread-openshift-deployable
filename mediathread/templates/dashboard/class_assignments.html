@@ -1,0 +1,44 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% load comments user_projects %}
+
+{% block dashboard_module_header %}
+    <h2>Report: Assignment Responses</h2>
+{% endblock %}
+
+
+{% block dashboard_module %}
+
+<p>If you have published assignments to the class, this report allows you to access responses and track your feedback. </p>
+
+{% if assignments %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Assignment</th>
+      <th>Responses</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for assignment in assignments %}
+  <tr>
+    <td>
+      <a href="{{assignment.get_absolute_url}}">{{assignment.title}}</a>
+    </td>
+    <td>
+      <a href="{% url class-assignment-report assignment.id %}">
+	{{assignment|assignment_responses:request|length}} / {{num_students}}
+      </a>
+    </td>
+  </tr>
+{% endfor %}
+  </tbody>
+</table>
+{% else %}
+
+todo: help text
+
+{% endif %}
+
+{% endblock %}

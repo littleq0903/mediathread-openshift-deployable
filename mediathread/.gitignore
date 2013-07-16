@@ -1,0 +1,15 @@
+._*
+*~
+*.pyc
+ve
+.svn
+\#*
+local_settings.py
+.project
+.pydevproject
+start_server.sh
+.settings
+lettuce.db
+chromedriver.log
+ghostdriver.log
+.coverage

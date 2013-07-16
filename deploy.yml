@@ -1,0 +1,10 @@
+admin_password: testtest
+application_name: mediathreadlab
+django_settings: mediathread.settings
+managepy: mediathread/manage.py
+media_url: /media/
+project_name: mediathread
+provider: openshift
+pyversion: Python2.7
+requirements: mediathread/requirements/apps.txt
+static_url: /static/

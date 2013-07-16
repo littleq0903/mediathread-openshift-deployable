@@ -1,0 +1,344 @@
+{{#>>collection_table}}
+<div class="collection_table">
+    <div class="media-column" >
+        <div class="filter-widget">
+            {{#>>switcher_collection_chooser}}
+            <div class="switcher_collection_chooser switcher collection-chooser" tabindex="1">
+                <span class="switcher-prefix">
+                    Owner: 
+                </span>
+                <a class="switcher-top menuclosed" onclick="switcher(this);">
+                    <span class="title">{{{selected_label}}}</span>
+                    <span class="down-arrow" tabindex="3"></span>                    
+                </a>
+                
+                <ul class="switcher-options" style="left: -54px">
+                    <div>
+                        {{#display_switcher_extras?}}
+                            <li style="padding-top:10px;">
+                                <ul class="switcher-sub">
+                                    {{^showing_my_items}}
+                                        <li class="choice_my_items">
+                                            <a class="switcher-choice owner" href="{{space_viewer.username}}">&mdash; Me &mdash;</a>
+                                        </li>
+                                    {{/showing_my_items}}
+                                    
+                                    {{#project.participants}}
+                                        {{^is_viewer}}
+                                            <li><a class="switcher-choice owner" href="{{username}}">{{public_name}}</a></li>
+                                        {{/is_viewer}}   
+                                    {{/project.participants}}
+                                </ul>
+                            </li>
+                        {{/display_switcher_extras?}}
+                    </div>
+                    <li>
+                        <ul class="scroll switcher-sub">
+                            {{^showing_all_items}}
+                                <li class="choice_all_items">
+                                    <a class="switcher-choice owner" href="all-class-members">&mdash; All Class Members &mdash;</a>
+                                </li>
+                            {{/showing_all_items}}                        
+                            {{#owners}}                            
+                                <li><a class="switcher-choice owner" href="{{username}}">{{public_name}}</a></li>
+                            {{/owners}}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            {{/>>switcher_collection_chooser}}
+            
+            <div class="switcher collection-filter" tabindex="2" style="width: 135px">
+                <a class="switcher-top menuclosed" onclick="switcher(this);">
+                    <span class="title">Filters...</span>
+                    <span class="down-arrow" tabindex="4"></span>                                        
+                </a>
+                <ul class="switcher-options" style="right: -54px">
+                    {{^showing_all_items}}
+                    <li>
+                        <h3>Date Modified</h3>
+                        <p class="switcher-sub filterbydate">
+                            <a class="switcher-choice" href="today">today</a>
+                            <a class="switcher-choice" href="yesterday">yesterday</a>
+                            <a class="switcher-choice" href="lastweek">within the last week</a>
+                        </p>
+                    </li>
+                    {{/showing_all_items}}
+            
+                    <li>
+                        <h3>Tags</h3>
+                        <p class="switcher-sub">
+                            {{^tags}}
+                                No tags
+                            {{/tags}}
+                            {{#tags}}
+                                <a class="switcher-choice filterbytag" href="{{name}}">{{name}}</a>
+                            {{/tags}}
+                        </p>
+                    </li>
+                    
+                </ul>
+            </div>
+            
+            <div class="visualclear"></div>
+            
+            
+            {{#active_filter_count?}}
+                <div class="switcher-active-filters">
+                    {{#active_filters}}
+                        {{#tag?}}
+                            <div class="switcher-active-filter">
+                                <span>Tag: {{tag?ellipses(8)}}<a class="switcher-choice remove" href="tag" title="Clear "{{tag}}" filter"></a></span>
+                            </div>
+                        {{/tag?}}
+                        {{#modified?}}
+                            <div class="switcher-active-filter">
+                                <span>Date: {{modified}}<a class="switcher-choice remove" href="modified" title="Clear "{{modified}}" filter"></a></span>
+                            </div>
+                        {{/modified?}}
+                    {{/active_filters}}
+                </div>
+            {{/active_filter_count?}}
+            
+        </div> {{! end filter widget }}
+
+            
+        <div class="collection-assets scroll annotation-embedding">
+            {{#>>assets}}
+            <div id="asset_table" class="asset-table">
+                {{^assets}}
+                    <div class="default-content intro-text feature-help"">
+                        {{^active_filter_count}}
+                            {{#showing_my_items?}}                                                              
+                                <strong>Mediathread collection</strong>
+                                <div class="feature-help-instructions">
+                                    A collection is a set of images, video and/or audio brought into Mediathread that 
+                                    can be annotated, organized, and embedded into essays and other written analysis.
+                                </div>
+                                
+                                <strong>How do I build my collection?</strong><br />
+                                <div class="feature-help-instructions">
+                                    <ul>
+                                        {{#is_faculty?}}
+                                            <li style="margin-bottom: 4px"><b>Import</b>: Build your collection by 
+                                            bookmarking items from sites such as YouTube or Flickr.
+                                            To install the bookmarklet into your browser, click the <b>Import into Collection</b> link 
+                                            on the <a href="/">home</a> page and follow directions. <b>Recommend Sites</b> to students via <b>Tools</b> menu / <b>Manage Sources</b>
+                                            </li>
+                                            
+                                            <li style="margin-bottom: 4px">
+                                                <b>Upload</b>: Video and audio files may be uploaded 
+                                                into Mediathread when you enable this feature in <b>Tools</b> menu / <b>Manage Sources</b>.
+                                                An <b>Upload from Computer</b> link and directions then appear on the home page.  
+                                            </li>
+                                        {{/is_faculty?}}
+                                        {{^is_faculty}}                                            
+                                                <li style="margin-bottom: 4px"><b>Import</b>: Build your collection 
+                                                by bookmarking items from sites such as YouTube or Flickr.
+                                                To install the bookmarklet into your browser, click the <b>Import into Collection</b> 
+                                                on the <a href="/">home</a> page and follow directions. Your instructor also may list 
+                                                recommended sites on the home page.</li>
+                                                <li><b>Upload</b>: If this feature is enabled, 
+                                                you may upload video and audio files from your computer. Click the 
+                                                <b>Upload from Computer</b> on the <a href="/">home</a> page and 
+                                                follow directions.</li>                                            
+                                        {{/is_faculty}}
+                                   </ul>                                     
+                                </div>                         
+                            {{/showing_my_items?}}
+                            {{^showing_my_items}}
+                                <h5>This class participant has not collected any materials yet.</h5>                                
+                            {{/showing_my_items}}
+                        {{/active_filter_count}}
+                        {{#active_filter_count}}
+                            {{#active_filters}}
+                                {{#tag?}}
+                                    <h5>Filtered by "{{tag}}"</h5>
+                                {{/tag?}}
+                                {{#modified?}}
+                                    <h5>Filtered by "{{modified}}"</h5>
+                                {{/modified?}}
+                            {{/active_filters}}
+                            <p>No items meet this critieria.</p>      
+                        {{/active_filter_count}}                         
+                   </div>
+                {{/assets}} 
+                {{#assets}}
+                    <div id="materials" class="column-contents">
+                    <div id="record-{{id}}" class="record record-{{primary_type}} gallery-item-project">
+                        <input type="hidden" class="record" value="{{id}}" name="record-id" />
+                        <h4 id="asset-item-{{id}}" class="asset_title">
+                            <div class="actions">
+                                {{#editable?}}
+                                    <a class="collection-choice delete-asset" href="{{id}}" title="Remove item from your collection">
+                                        <img src="/site_media/img/icons/meth_delete.png" class="delete_icon" alt="Remove item from your collection"  />
+                                    </a>
+                                    <a class="collection-choice edit-asset" href="{{id}}" title="Quick edit item attributes">
+                                        <img src="/site_media/img/icons/meth_edit_inplace.png" class="edit_icon" alt="Edit item attributes"  />
+                                    </a>
+                                {{/editable?}}
+                                <a class="collection-choice create-annotation" href="{{id}}" title="Create selection on this item">
+                                    <img src="/site_media/img/icons/meth_addselection.png" class="create_annotation_icon" alt="Create selection"  />
+                                </a>                                
+                            </div>
+                            {{#citable?}}
+                            <span class="citationTemplate">
+                                <img class="materialCitation" alt="" 
+                                    src="/site_media/img/icons/meth_insert_{{media_type_label}}.png#annotation={{local_url}}&title={{title}}&type={{primary_type}}&range1=0" 
+                                    onclick="addMaterialCitation(event)" 
+                                    title="Add item to the composition" 
+                                    name="{{local_url}}"/>
+                            </span>
+                            {{/citable?}}
+                            <a class="asset-title-link insert"
+                               title="{{{title?default(-Untitled-)}}"
+                               target="_blank" href="{{local_url}}">{{{title?default(-Untitled-)}}}</a>
+                        </h4>
+                        <table class="item-level-info">
+                            <tr>
+                                <td class="item-thumb">
+                                    {{#thumb?}}
+                                    <a href="{{local_url}}"><img class="asset-thumb" src="{{thumb}}" alt="Item Thumbnail" /></a>
+                                    {{/thumb?}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="item-meta">
+                                    {{#global_annotation}}
+                                        {{#metadata}}
+                                            <ul class="record-metadata-list">
+                                                {{#tags?}}
+                                                    <li class="annotation-global-tags meta">
+                                                    <span class="metadata-label">Item Tags:</span>
+                                                        <span class="metadata-value">
+                                                            {{#tags}}
+                                                                <a class="switcher-choice filterbytag" href="{{name}}" title='Filter collection by "{{name}}"'>{{name}}</a>&nbsp;
+                                                            {{/tags}}
+                                                        </span>
+                                                    </li>
+                                                {{/tags?}} 
+                                            
+                                                {{#body?}}
+                                                    <li class="annotation-global-body meta">
+                                                        <span class="metadata-label">Item Note:</span> <span class="metadata-value">{{body}}</span> 
+                                                    </li>
+                                                {{/body?}}
+                                            </ul>
+                                        {{/metadata}}   
+                                    {{/global_annotation}}
+                                      
+                                    {{^global_annotation}}
+                                         {{^space_owner}} {{! All Class Items. Is this really necessary? }}
+                                             {{#tags?}}
+                                                <div class="meta">
+                                                    <div class="meta"> 
+                                                        <span class="metadata-label">Selection Tags:</span>
+                                                        <span class="metadata-value">
+                                                            {{#tags}}
+                                                                <a class="switcher-choice filterbytag" href="{{name}}" title='Filter collection by "{{name}}"'>{{name}}</a>&nbsp;
+                                                            {{/tags}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                             {{/tags?}}
+                                        {{/space_owner}}
+                                    {{/global_annotation}}
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div id="record-{{id}}-metadata" class="record-metadata">
+                            {{#annotations?}}
+                                <div class="asset-clips">
+                                    {{#annotations}} 
+                                        {{^is_null}}
+                                            <div id="annotation-{{id}}">
+                                                <table class="selection-level-info">
+                                                    <tr>
+                                                        <td class="selection-inserter">
+                                                            {{#citable?}}
+                                                            <span class="citationTemplate">
+                                                                <img class="materialCitation" alt="" 
+                                                                    src="/site_media/img/icons/meth_insert_selection.png#annotation={{url}}&title={{metadata.title}}&type={{metadata.primary_type}}&range1={{range1}}" 
+                                                                    onclick="addMaterialCitation(event)" 
+                                                                    title="Add selection to the composition" 
+                                                                    name="{{url}}"/>
+                                                            </span>
+                                                            {{/citable?}}
+                                                        </td>
+                                                        <td class="selection-meta-title">
+                                                            <div class="metadata-container">                                                                
+                                                                <a target="_blank"
+                                                                    class="materialCitationLink"
+                                                                    title="Full Selection Details"
+                                                                    href="{{url}}">{{{metadata.title?default(-Untitled-)}}}</a>         
+                                                            </div>
+                                                        </td>
+                                                        
+                                                                                                                        
+                                                        {{#editable?}}
+                                                            <td class="selection-trash">
+                                                                <div class="actions">
+                                                                    <a class="collection-choice delete-annotation" href="{{id}}" title="Delete selection">
+                                                                        <img src="/site_media/img/icons/meth_delete.png"  class="delete_icon" alt="Delete selection"  />
+                                                                    </a>
+                                                                    <a class="collection-choice edit-annotation" href="{{id}}" title="Quick edit selection attributes">
+                                                                        <img src="/site_media/img/icons/meth_edit_inplace.png" class="edit_icon" alt="Edit selection attributes"  />
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        {{/editable?}}
+                                                    </tr>
+                                                    <tr>       
+                                                        <td />                                                                                                                 
+                                                        <td class="selection-thumb" colspan="3">
+                                                            <div class="annotation-thumb-{{id}}"></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="selection-meta" colspan="4">
+                                                            <div class="metadata-container">
+                                                                {{#metadata}}
+                                                                    {{#timecode?}}
+                                                                    <div class="annotation-timecode meta"><span class="metadata-label">Time code:</span> <span class="metadata-value">{{timecode}}</span></div>
+                                                                    {{/timecode?}}
+                                                                {{/metadata}}
+                                                                
+                                                                <div id="annotation-body-{{id}}" class="meta">
+                                                                    {{#metadata}}
+                                                                        {{#tags?}}       
+                                                                            <div><span class="metadata-label">Tags:</span>
+                                                                                <span class="metadata-value">
+                                                                                    {{#tags}}
+                                                                                        <a class="switcher-choice filterbytag" href="{{name}}" title='Filter collection by "{{name}}"'>{{name}}</a>&nbsp;
+                                                                                    {{/tags}}
+                                                                                </span>
+                                                                            </div>
+                                                                        {{/tags?}}
+                                                                        {{#body?}}
+                                                                            <div>
+                                                                                <span class="metadata-label">Note:</span>
+                                                                                <span class="metadata-value">{{body}}</span> 
+                                                                            </div>
+                                                                        {{/body?}}
+                                                                    {{/metadata}}
+                                                                </div>
+                                                            </div>
+                                                        </td>                                            
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        {{/is_null}} {{! annotation is not null }}
+                                    {{/annotations}} {{! iterate annotations }}
+                                    </div>{{! class="asset-clips" }}
+                                {{/annotations?}} {{! annotations exist }}
+                        </div> {{! end record metadata }}
+                        </div> {{! end id="record-id" }}
+                    </div> {{! end id=materials, class="column-contents scroll" }} 
+                {{/assets}}
+                  
+            </div>
+        {{/>>assets}}
+    </div>
+</div>
+{{/>>collection_table}}

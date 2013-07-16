@@ -1,0 +1,89 @@
+body
+{
+	min-width: 1px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: #fff;
+	font-family: arial, helvetica, verdana, sans-serif;
+	color: #000;
+}
+
+/* ########## Standard elements ########## */
+
+p
+{
+	display: block;
+	margin: 0 0 0.7em 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+}
+
+table
+{
+	margin: 0 0 0.7em 0;
+	padding: 0;
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+	font-size: 100%;
+}
+
+th
+{
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
+
+td
+{
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
+
+ol, ul
+{
+	display: block;
+	margin: 0 4em 0.7em 4em;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+}
+
+/*
+li
+{
+}
+*/
+
+a
+{
+	color: #06c;
+}
+
+a:hover
+{
+	color: #69c;
+}
+
+a:visited
+{
+	color: #900;
+}
+
+img
+{
+	border: 0;
+}
+
+/* ########## Blocks style definitions ########## */
+
+#standardnav
+{
+	display: none !important;
+}
+
+.printonly
+{
+	display: block;
+}

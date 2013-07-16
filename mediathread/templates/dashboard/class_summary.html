@@ -1,0 +1,192 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load comments coursetags %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var hs_controls = [];
+        
+        function cookie_name(el) {
+            var name = "hsstate_";
+            //across pages
+            if (/^global-/.test(el.id)) {
+                name += "#" + el.id;
+            } else {
+                name +=  document.location + "#" + el.id;
+            }
+            return name.replace(/\W/g, "_");
+        }
+        
+        function futureDate() {
+            var d = new Date();
+            d.setTime(Date.parse('October, 4 2030 07:04:11'));
+            return d;
+        }
+        
+        function hs_getTarget(a) {
+            var elt = jQuery(a.href.substr(a.href.indexOf('#')));
+            if (elt.length) {
+                return elt.get(0);
+            } else {
+                throw new Error('hs.js: target id: ' + a.href + ' not found');
+            }
+        }
+        
+        function hs_hide(e) {
+            e = (typeof e === 'number' ? this : e);
+        
+            jQuery(e)
+            .removeClass("hs-show")
+            .addClass("hs-hide");
+        
+            jQuery(hs_controls[e.id])
+            .removeClass("hs-control-show")
+            .addClass("hs-control-hide");
+        
+            if (typeof window['hs_onhide_' + e.id] === 'function') {
+                window['hs_onhide_' + e.id](e);
+            }
+        }
+        
+        function hs_show(e) {
+            jQuery(e)
+            .removeClass("hs-hide")
+            .addClass("hs-show");
+        
+            jQuery(hs_controls[e.id])
+            .removeClass("hs-control-hide")
+            .addClass("hs-control-show");
+        
+            if (typeof window['hs_onshow_' + e.id] === 'function') {
+                window['hs_onshow_' + e.id](e);
+            }
+        }
+        
+        
+        function hs_toggle() {
+            var target = hs_getTarget(this);
+            if (jQuery(target).hasClass("hs-hide")) {
+                hs_show(target);
+                storeData(cookie_name(target), "show", futureDate());
+            } else {
+                hs_hide(target);
+                storeData(cookie_name(target), "hidden", futureDate());
+            }
+            return false;
+        }
+        
+        function hs_addControlCallback() {
+            //log("adding callback to " + a);
+            jQuery(this)
+            .click(hs_toggle)
+            .addClass('hs-control-show');
+            hs_controls[hs_getTarget(this).id] = this;
+        }
+        
+        
+        function hs_lookForCookie() {
+            var e = hs_getTarget(this);
+            var s = retrieveData(cookie_name(e));
+            if (s === "hidden") {
+                hs_hide(e);
+            }
+            if (s === "show") {
+                hs_show(e);
+            }
+        }
+        
+        function hs_init(parent) {
+            parent = ((parent && parent.tagName) ? parent : document);
+            jQuery('a.hs-control', parent).each(hs_addControlCallback);
+            jQuery('.hs-init-hide', parent).each(hs_hide);
+            jQuery('a.hs-control', parent).each(hs_lookForCookie);
+        }
+        
+        jQuery(hs_init);
+    </script>
+    <script type="text/javascript" src="/site_media/js/protovis/protovis.min.js"></script>
+{% endblock %}
+
+{% block dashboard_module_header %}
+    <h2>Report: Student Contributions</h2>
+{% endblock %}
+
+{% block dashboard_module %}
+        
+    <p>This report lists the number of each class member's saved selections, discussion thread posts, and compositions. To access an individual student's work, click on her name. </p>
+<table id="summary_columns">
+<tr>
+
+<td class="mainsection">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Selections</th>
+          <th>Discussion Posts</th>
+          <th>Compositions</th>
+        </tr>
+      </thead>
+      <tbody id="reports-student-tbody">
+        {% for student in students %}
+        <tr data-username="{{student.username}}" class="user-{{student.username}}">
+          <td><a href="/?username={{student.username}}">
+            {%public_name for student %}
+          </a></td>
+          <td>{{student.annotations}}</td>
+          <td>{{student.comments}}</td>
+          <td>{{student.all_projects}}</td>
+       <!--   <td>{{student.project_adds}}</td>
+          <td>{{student.project_deletes}}</td>-->
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</td>
+
+<td class="mainsection">
+ <div>
+  <div class="panel-column">
+    <h2>Experimental Graph Visualization</h2>
+    <p> This graph tries to visualize the different inter-connected objects in the class.
+            It's incredibly experimental--we'd like to link the dots to the objects, and filter, and many other things.  Suggestions are welcome.
+          </p>
+    
+    <div id="reports-graph-link">
+      <a class="hs-control" href="#reports-graph"></a> Show/Hide Graph
+      <a id="reports-graph-chosenlink" href=""></a>
+    </div>
+      <div id="reports-graph" class="hs-init-hide">
+        <ul>
+          <li><a class="help hs-control hs-init-show" href="#reports-graph-help"></a> <b>Details</b></li>
+          <li id="reports-graph-help">
+             <ul>
+              <li>Fastest in Google Chrome and Safari, still supported in Firefox and IE9</li>
+              <li>
+                <b>Squares</b> are Compositions,
+                <b>Circles</b> are Items, colored by their Source,
+                <b>Diamonds</b> are chained comments in a Discussion,
+                lighter lines are Item-level anotations (compared to an annotated Selection), instructor Compositions have lighter borders
+              </li>
+              <li><b>Controls:</b> hover over an object for title/details, mouse-wheel zooms in/out, drag on whitespace to pan, drag a node to help the display algorithm.
+              </li>
+              <li>Click on a node for a link to the item above</li>
+              <li>Click on a user row on the left to highlight that user's contributions.</li>
+            </ul>
+          </li>
+        </ul>
+        <div id="reports-graph-visualization"></div>
+      </div>
+      </div>
+      </div>
+</td>
+
+</tr>
+</table>
+
+
+
+    
+
+      
+ {% endblock %}
