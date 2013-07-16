@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import urlparse
 import os
+import sys
 
 #########
 # PATHS #
